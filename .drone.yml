@@ -1,0 +1,10 @@
+kind: pipeline
+type: docker
+name: CI
+
+steps:
+  - name: Build & Test
+    image: composer/latest
+    commands:
+     - composer install
+     - composer ci
