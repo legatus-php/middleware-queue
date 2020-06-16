@@ -21,10 +21,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 class QueueMiddleware implements MiddlewareInterface, RequestHandlerInterface
 {
-    /**
-     * @var Queue
-     */
-    private $queue;
+    private Queue $queue;
 
     /**
      * QueueMiddleware constructor.

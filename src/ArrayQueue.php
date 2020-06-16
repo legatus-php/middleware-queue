@@ -23,7 +23,7 @@ final class ArrayQueue implements Queue
     /**
      * @var MiddlewareInterface[]
      */
-    private $queue;
+    private array $queue;
 
     /**
      * ArrayQueue constructor.
