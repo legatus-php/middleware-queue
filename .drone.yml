@@ -11,6 +11,7 @@ steps:
       endpoint: https://s3.mnavarro.dev
       bucket: drone-cache
       region: eu-west-1
+      path: /drone-cache/legatus/composer
       access_key:
         from_secret: s3_access_key
       secret_key:
@@ -29,7 +30,7 @@ steps:
       pull: true
       rebuild: true
       endpoint: https://s3.mnavarro.dev
-      bucket: drone-cache
+      path: /drone-cache/legatus/composer
       region: eu-west-1
       access_key:
         from_secret: s3_access_key
@@ -39,15 +40,3 @@ steps:
         - .cache
       when:
         event: push
-
-  - name: flush
-    image: plugins/s3-cache
-    settings:
-      pull: true
-      flush: true
-      flush_age: 14
-      endpoint: https://s3.mnavarro.dev
-      access_key:
-        from_secret: s3_access_key
-      secret_key:
-        from_secret: s3_secret_key
