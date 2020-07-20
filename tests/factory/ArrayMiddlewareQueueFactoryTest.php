@@ -9,17 +9,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Legatus\Http\MiddlewareQueue\Tests\Factory;
+namespace Legatus\Http;
 
-use Legatus\Http\MiddlewareQueue\Factory\ArrayQueueFactory;
-use Legatus\Http\MiddlewareQueue\Queue;
 use PHPUnit\Framework\TestCase;
 
-class ArrayQueueFactoryTest extends TestCase
+class ArrayMiddlewareQueueFactoryTest extends TestCase
 {
     public function testItCreatesAQueue(): void
     {
-        $factory = new ArrayQueueFactory();
-        $this->assertInstanceOf(Queue::class, $factory->create());
+        $factory = new ArrayMiddlewareQueueFactory();
+        $this->assertInstanceOf(MiddlewareQueue::class, $factory->create());
     }
 }

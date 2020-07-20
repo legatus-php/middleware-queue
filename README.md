@@ -17,14 +17,14 @@ composer require legatus/middleware-queue
 ```php
 <?php
 
-$queue = new Legatus\Http\MiddlewareQueue\ArrayQueue();
+$queue = new Legatus\Http\ArrayMiddlewareQueue();
 $queue->push(new SomeMiddleware());
 $queue->push(new SomeOtherMiddleware());
 
 $queue->handle($request);
 
 // Or use the queue as a middleware
-$queueMiddleware = new Legatus\Http\MiddlewareQueue\QueueMiddleware($queue);
+$queueMiddleware = new Legatus\Http\QueueMiddleware($queue);
 
 $queueMiddleware->process($request, $handler);
 ```

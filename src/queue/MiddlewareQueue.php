@@ -9,24 +9,27 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Legatus\Http\MiddlewareQueue;
+namespace Legatus\Http;
 
+use OutOfBoundsException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 /**
- * Interface Queue.
+ * Interface MiddlewareQueue.
+ *
+ * Defines the contract for a queue of PSR-7 middleware
  */
-interface Queue extends RequestHandlerInterface
+interface MiddlewareQueue extends RequestHandlerInterface
 {
     /**
      * Fetches the next middleware in the queue.
      *
      * @return MiddlewareInterface
      *
-     * @throws EmptyQueueException if the queue is empty
+     * @throws OutOfBoundsException if the queue is empty
      */
     public function next(): MiddlewareInterface;
 
@@ -38,18 +41,20 @@ interface Queue extends RequestHandlerInterface
     public function push(MiddlewareInterface $middleware): void;
 
     /**
-     * Empties the queue.
+     * Copies the queue with a clean state.
      *
-     * Implementors MUST not mutate the original queue.
+     * This method returns a new queue instance.
      *
-     * @return Queue
+     * @return MiddlewareQueue
      */
-    public function empty(): Queue;
+    public function copy(): MiddlewareQueue;
 
     /**
      * @param ServerRequestInterface $request
      *
      * @return ResponseInterface
+     *
+     * @throws OutOfBoundsException when the queue is exhausted
      */
     public function handle(ServerRequestInterface $request): ResponseInterface;
 }

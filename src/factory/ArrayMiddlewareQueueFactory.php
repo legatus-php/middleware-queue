@@ -9,13 +9,18 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Legatus\Http\MiddlewareQueue;
-
-use RuntimeException;
+namespace Legatus\Http;
 
 /**
- * Class EmptyQueueException.
+ * Class ArrayMiddlewareQueueFactory.
  */
-class EmptyQueueException extends RuntimeException
+final class ArrayMiddlewareQueueFactory implements MiddlewareQueueFactory
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function create(): ArrayMiddlewareQueue
+    {
+        return new ArrayMiddlewareQueue();
+    }
 }

@@ -9,7 +9,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Legatus\Http\MiddlewareQueue\Tests;
+namespace Legatus\Http;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -24,7 +24,7 @@ class OutputMiddleware implements MiddlewareInterface
     /**
      * @var string
      */
-    private $message;
+    private string $message;
 
     /**
      * OutputMiddleware constructor.

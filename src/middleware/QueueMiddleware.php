@@ -9,8 +9,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Legatus\Http\MiddlewareQueue;
+namespace Legatus\Http;
 
+use OutOfBoundsException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -21,14 +22,14 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 class QueueMiddleware implements MiddlewareInterface, RequestHandlerInterface
 {
-    private Queue $queue;
+    protected MiddlewareQueue $queue;
 
     /**
      * QueueMiddleware constructor.
      *
-     * @param Queue $queue
+     * @param MiddlewareQueue $queue
      */
-    public function __construct(Queue $queue)
+    public function __construct(MiddlewareQueue $queue)
     {
         $this->queue = $queue;
     }
@@ -42,14 +43,6 @@ class QueueMiddleware implements MiddlewareInterface, RequestHandlerInterface
     }
 
     /**
-     * @return Queue
-     */
-    protected function emptyQueue(): Queue
-    {
-        return $this->queue->empty();
-    }
-
-    /**
      * @param ServerRequestInterface  $request
      * @param RequestHandlerInterface $handler
      *
@@ -59,7 +52,7 @@ class QueueMiddleware implements MiddlewareInterface, RequestHandlerInterface
     {
         try {
             return $this->handle($request);
-        } catch (EmptyQueueException $exception) {
+        } catch (OutOfBoundsException $exception) {
             return $handler->handle($request);
         }
     }
@@ -68,6 +61,8 @@ class QueueMiddleware implements MiddlewareInterface, RequestHandlerInterface
      * @param ServerRequestInterface $request
      *
      * @return ResponseInterface
+     *
+     * @throws OutOfBoundsException when the queue is exhausted
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {

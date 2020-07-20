@@ -9,19 +9,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Legatus\Http\MiddlewareQueue\Factory;
-
-use Legatus\Http\MiddlewareQueue\Queue;
+namespace Legatus\Http;
 
 /**
- * Interface QueueFactory.
+ * Interface MiddlewareQueueFactory.
  */
-interface QueueFactory
+interface MiddlewareQueueFactory
 {
     /**
-     * Creates a Queue instance.
+     * Creates a MiddlewareQueue instance.
      *
-     * @return Queue
+     * @return MiddlewareQueue
      */
-    public function create(): Queue;
+    public function create(): MiddlewareQueue;
 }

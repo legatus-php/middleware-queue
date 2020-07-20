@@ -9,11 +9,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Legatus\Http\MiddlewareQueue\Tests;
+namespace Legatus\Http;
 
-use Legatus\Http\MiddlewareQueue\EmptyQueueException;
-use Legatus\Http\MiddlewareQueue\Queue;
-use Legatus\Http\MiddlewareQueue\QueueMiddleware;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -30,7 +27,7 @@ class QueueMiddlewareTest extends TestCase
         $request = $this->createStub(ServerRequestInterface::class);
         $response = $this->createStub(ResponseInterface::class);
 
-        $queue = $this->createMock(Queue::class);
+        $queue = $this->createMock(MiddlewareQueue::class);
         $queue->expects($this->once())
             ->method('handle')
             ->with($request)
@@ -46,7 +43,7 @@ class QueueMiddlewareTest extends TestCase
         $request = $this->createStub(ServerRequestInterface::class);
         $response = $this->createStub(ResponseInterface::class);
 
-        $queue = $this->createMock(Queue::class);
+        $queue = $this->createMock(MiddlewareQueue::class);
         $handler = $this->createMock(RequestHandlerInterface::class);
         $queue->expects($this->once())
             ->method('handle')
@@ -66,12 +63,12 @@ class QueueMiddlewareTest extends TestCase
         $request = $this->createStub(ServerRequestInterface::class);
         $response = $this->createStub(ResponseInterface::class);
 
-        $queue = $this->createMock(Queue::class);
+        $queue = $this->createMock(MiddlewareQueue::class);
         $handler = $this->createMock(RequestHandlerInterface::class);
         $queue->expects($this->once())
             ->method('handle')
             ->with($request)
-            ->willThrowException(new EmptyQueueException('The queue is empty'));
+            ->willThrowException(new \OutOfBoundsException('The queue is empty'));
         $handler->expects($this->once())
             ->method('handle')
             ->with($request)
@@ -85,7 +82,7 @@ class QueueMiddlewareTest extends TestCase
     public function testItPushesMiddleware(): void
     {
         $middlewareStub = $this->createStub(MiddlewareInterface::class);
-        $queue = $this->createMock(Queue::class);
+        $queue = $this->createMock(MiddlewareQueue::class);
         $queue->expects($this->once())
             ->method('push')
             ->with($middlewareStub);

@@ -12,12 +12,12 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "Legatus\\Http\\MiddlewareQueue\\": "src"
+            "Legatus\\Http\\": ["src/queue", "src/middleware", "src/factory"]
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Legatus\\Http\\MiddlewareQueue\\Tests\\": "tests"
+            "Legatus\\Http\\": ["tests/queue", "tests/middleware", "tests/factory"]
         }
     },
     "require": {

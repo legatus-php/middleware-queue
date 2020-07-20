@@ -9,25 +9,24 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Legatus\Http\MiddlewareQueue\Tests;
+namespace Legatus\Http;
 
-use Legatus\Http\MiddlewareQueue\ArrayQueue;
-use Legatus\Http\MiddlewareQueue\EmptyQueueException;
+use OutOfBoundsException;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Class ArrayQueueTest.
+ * Class ArrayMiddlewareQueueTest.
  */
-class ArrayQueueTest extends TestCase
+class ArrayMiddlewareQueueTest extends TestCase
 {
     public function testItRuns(): void
     {
         $response = $this->createStub(ResponseInterface::class);
         $request = $this->createStub(ServerRequestInterface::class);
 
-        $queue = new ArrayQueue(new OutputMiddleware('1'), new OutputMiddleware('2'), new OutputMiddleware('3'));
+        $queue = new ArrayMiddlewareQueue(new OutputMiddleware('1'), new OutputMiddleware('2'), new OutputMiddleware('3'));
         $queue->push(new ResponseMiddleware($response));
 
         $this->expectOutputString(
@@ -47,10 +46,10 @@ class ArrayQueueTest extends TestCase
         $response = $this->createStub(ResponseInterface::class);
         $request = $this->createStub(ServerRequestInterface::class);
 
-        $queue = new ArrayQueue(new OutputMiddleware('1'), new OutputMiddleware('2'), new OutputMiddleware('3'));
+        $queue = new ArrayMiddlewareQueue(new OutputMiddleware('1'), new OutputMiddleware('2'), new OutputMiddleware('3'));
         $queue->push(new ResponseMiddleware($response));
 
-        $emptyQueue = $queue->empty();
+        $emptyQueue = $queue->copy();
 
         $this->expectOutputString(
             'in-1'.PHP_EOL.
@@ -62,7 +61,7 @@ class ArrayQueueTest extends TestCase
         );
 
         $this->assertSame($response, $queue->handle($request));
-        $this->expectException(EmptyQueueException::class);
+        $this->expectException(OutOfBoundsException::class);
         $emptyQueue->handle($request);
     }
 
@@ -71,7 +70,7 @@ class ArrayQueueTest extends TestCase
         $response = $this->createStub(ResponseInterface::class);
         $request = $this->createStub(ServerRequestInterface::class);
 
-        $queue = new ArrayQueue(new OutputMiddleware('1'), new OutputMiddleware('2'), new OutputMiddleware('3'));
+        $queue = new ArrayMiddlewareQueue(new OutputMiddleware('1'), new OutputMiddleware('2'), new OutputMiddleware('3'));
         $queue->push(new ResponseMiddleware($response));
 
         $this->expectOutputString(
@@ -96,8 +95,8 @@ class ArrayQueueTest extends TestCase
     public function testItThrowsErrorOnEmptyQueue(): void
     {
         $request = $this->createStub(ServerRequestInterface::class);
-        $queue = new ArrayQueue();
-        $this->expectException(EmptyQueueException::class);
+        $queue = new ArrayMiddlewareQueue();
+        $this->expectException(OutOfBoundsException::class);
         $queue->handle($request);
     }
 }

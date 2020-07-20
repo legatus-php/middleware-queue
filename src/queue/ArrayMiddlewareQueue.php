@@ -9,16 +9,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Legatus\Http\MiddlewareQueue;
+namespace Legatus\Http;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 
 /**
- * Class ArrayQueue.
+ * Class ArrayMiddlewareQueue.
  */
-final class ArrayQueue implements Queue
+final class ArrayMiddlewareQueue implements MiddlewareQueue
 {
     /**
      * @var MiddlewareInterface[]
@@ -26,7 +26,7 @@ final class ArrayQueue implements Queue
     private array $queue;
 
     /**
-     * ArrayQueue constructor.
+     * ArrayMiddlewareQueue constructor.
      *
      * @param MiddlewareInterface ...$queue
      */
@@ -44,13 +44,13 @@ final class ArrayQueue implements Queue
         if ($element instanceof MiddlewareInterface) {
             return $element;
         }
-        throw new EmptyQueueException('The queue is empty');
+        throw new \OutOfBoundsException('The queue is empty');
     }
 
     /**
      * {@inheritdoc}
      */
-    public function empty(): Queue
+    public function copy(): MiddlewareQueue
     {
         $clone = clone $this;
         $clone->queue = [];
