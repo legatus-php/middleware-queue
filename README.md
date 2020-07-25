@@ -3,6 +3,7 @@ Legatus Middleware Queue
 
 A middleware queue that handles requests and works as a middleware itself
 
+[![Type Coverage](https://shepherd.dev/github/legatus-php/middleware-queue/coverage.svg)](https://shepherd.dev/github/legatus-php/middleware-queue)
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Flegatus-php%2Fmiddleware-queue%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/legatus-php/middleware-queue/master)
 
 ## Installation
